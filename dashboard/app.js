@@ -123,7 +123,7 @@
       { text: actionFor(p, capital, chain), cost: '$' + capital + ' of capital and about $' + (capital >= 150 ? 8 : 4) + ' of gas', time: '15 minutes to set up' },
       { text: weeklyActionFor(p, chain), cost: 'about $2 of gas a week', time: '10 minutes a week' },
       { text: 'Hold the position for at least ' + hold + ' days so the activity is counted in more than one snapshot.', cost: 'the $' + capital + ' stays in the position', time: hold + ' days' },
-      { text: "Before you withdraw, open the protocol's own points or rewards page and claim only from the link it publishes.", cost: 'no fee to check, and never pay to claim', time: '10 minutes' },
+      { text: "Before you withdraw, open " + p.name + "'s own points or rewards page on " + chain + " and claim only from the link it publishes.", cost: 'no fee to check, and never pay to claim', time: '10 minutes' },
       { text: 'Never pay anyone to claim for you, never sign a transaction you did not read, and treat any direct message about this protocol as a scam.', cost: 'nothing, and it saves the whole position', time: '2 minutes to check each claim' },
       { text: 'Write the wallet, the dates and every transaction in a farm log so you can repeat the position or unwind it.', cost: 'nothing but the log', time: '5 minutes' }
     ].map(stepText);
@@ -366,7 +366,7 @@
         el('div', null, el('span', { text: 'Chains (' + (row.chains || []).length + ')' }), el('b', { class: 'num', text: String(row.chain_multiplier) + 'x' })),
         el('div', null, el('span', { text: 'Implied value' }), el('b', { class: 'num', text: fmtUsd(row.implied_value_usd) }))
       ),
-      el('p', { class: 'sub', text: 'Live ' + (row.category || 'Other') + ' protocols trade at a median ' + row.category_multiple + 'x their TVL, so this protocol is priced the way its own category is priced. The page recomputes this row as ' + fmtUsd(recomputed) + (recomputed === row.implied_value_usd ? ', the same number board.json carries.' : ', which differs from the board: the data would be stale.') + ' This is an estimate, not a price, and "no token" means its record carries no token.' })
+      el('p', { class: 'sub', text: 'Live ' + (row.category || 'Other') + ' protocols trade at a median ' + row.category_multiple + 'x their TVL, so this protocol is priced the way its own category is priced. The page recomputes this row as ' + fmtUsd(recomputed) + (Math.abs(recomputed - row.implied_value_usd) <= Math.max(2, row.implied_value_usd * 0.005) ? ', the same number board.json carries (the factors above are rounded for display).' : ', which differs from the board: the data would be stale.') + ' This is an estimate, not a price, and "no token" means its record carries no token.' })
     ));
     dialog.appendChild(el('section', { class: 'detail-section' },
       el('h3', { text: 'Farm plan' }),
